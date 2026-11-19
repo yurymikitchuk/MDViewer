@@ -1,0 +1,22 @@
+﻿**/bin/
+**/obj/
+**/TestResults/
+packages/
+.vs/
+.cursor/
+artifacts/
+*.user
+*.suo
+*.userosscache
+*.binlog
+AppPackages/
+BundleArtifacts/
+*.msix
+*.msixupload
+*.pdb
+# Local packing folders (do not commit large zips / mirrored trees)
+github-repo/
+github-releases/
+github-upload/
+publish/self-contained/
+publish/framework-dependent/
