@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>MDViewer</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
+    <Platforms>x64</Platforms>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <Platform Condition="'$(Platform)' == ''">x64</Platform>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+    <UseWinUI>true</UseWinUI>
+    <WinUISDKReferences>false</WinUISDKReferences>
+    <EnableMsixTooling>false</EnableMsixTooling>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <Version>0.1.0</Version>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+    <InformationalVersion>0.1.0</InformationalVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\AppIcon.ico" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Assets\Logo.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Assets\MDViewer_32.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Assets\viewer\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Assets\help\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MDViewer.Core\MDViewer.Core.csproj" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="*" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="*" />
+  </ItemGroup>
+
+  <!-- Unpackaged WinUI publish omits some build outputs (pri/xbf); copy them explicitly. -->
+  <Target Name="CopyWinUIPublishExtras" AfterTargets="Publish">
+    <ItemGroup>
+      <_WinUiPublishExtra Include="$(TargetDir)$(AssemblyName).pri" Condition="Exists('$(TargetDir)$(AssemblyName).pri')" />
+      <_WinUiPublishExtra Include="$(TargetDir)*.xbf" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_WinUiPublishExtra)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" />
+    <ItemGroup>
+      <_WinUiPublishAsset Include="$(TargetDir)Assets\AppIcon.ico" />
+      <_WinUiPublishAsset Include="$(TargetDir)Assets\Logo.png" />
+      <_WinUiPublishAsset Include="$(TargetDir)Assets\MDViewer_32.png" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_WinUiPublishAsset)" DestinationFolder="$(PublishDir)Assets" SkipUnchangedFiles="true"
+          Condition="Exists('%(_WinUiPublishAsset.Identity)')" />
+  </Target>
+</Project>

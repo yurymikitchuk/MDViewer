@@ -1,0 +1,249 @@
+:root {
+  color-scheme: light dark;
+  --bg: #FFFFFF;
+  --fg: #1b1b1b;
+  --muted: #5c5c5c;
+  --accent: #F15A4B;
+  --code-bg: #e8e8e8;
+  --border: #d4d4d4;
+  --quote-border: #F15A4B;
+  --mermaid-bg: #ececec;
+  --mark-bg: #ffe08a;
+  --font: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --mono: "Cascadia Code", "Consolas", "Segoe UI Mono", monospace;
+}
+
+/* Dark neutrals aligned with AirPDF; coral accent kept for brand. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #2B2B2B;
+    --fg: #E0E0E0;
+    --muted: #A0A0A0;
+    --accent: #FF7A6E;
+    --code-bg: #3A3A3A;
+    --border: #3F3F3F;
+    --quote-border: #FF7A6E;
+    --mermaid-bg: #323232;
+    --mark-bg: #6B5420;
+  }
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #FFFFFF;
+  --fg: #1b1b1b;
+  --muted: #5c5c5c;
+  --accent: #F15A4B;
+  --code-bg: #e8e8e8;
+  --border: #d4d4d4;
+  --quote-border: #F15A4B;
+  --mermaid-bg: #ececec;
+  --mark-bg: #ffe08a;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #2B2B2B;
+  --fg: #E0E0E0;
+  --muted: #A0A0A0;
+  --accent: #FF7A6E;
+  --code-bg: #3A3A3A;
+  --border: #3F3F3F;
+  --quote-border: #FF7A6E;
+  --mermaid-bg: #323232;
+  --mark-bg: #6B5420;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+body {
+  min-height: 100vh;
+}
+
+#content {
+  padding: 28px 28px 72px;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+#content.ready {
+  opacity: 1;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.25;
+  font-weight: 600;
+  margin: 1.6em 0 0.55em;
+  scroll-margin-top: 16px;
+}
+
+h1 { font-size: 2rem; margin-top: 0.4em; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+
+p, ul, ol, pre, blockquote {
+  margin: 0 0 1em;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.92em;
+  background: var(--code-bg);
+  padding: 0.12em 0.35em;
+  border-radius: 4px;
+}
+
+pre {
+  background: var(--code-bg);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow: auto;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+  font-size: 0.9em;
+}
+
+pre code.hljs {
+  background: transparent;
+  padding: 0;
+}
+
+.katex-display {
+  margin: 0.8em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+blockquote {
+  margin-left: 0;
+  padding: 0.15em 0 0.15em 1em;
+  border-left: 3px solid var(--quote-border);
+  color: var(--muted);
+}
+
+.table-wrap {
+  margin-bottom: 1em;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+
+th, td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.55em 0.65em;
+  text-align: left;
+}
+
+th {
+  font-weight: 600;
+}
+
+ul.contains-task-list {
+  list-style: none;
+  padding-left: 0.25em;
+}
+
+.task-list-item input {
+  accent-color: var(--accent);
+  margin-right: 0.45em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.mermaid {
+  background: var(--mermaid-bg);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 0 0 1em;
+  min-height: 120px;
+  overflow-x: auto;
+  text-align: center;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.mermaid-error {
+  white-space: pre-wrap;
+  text-align: left;
+  color: #a12828;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+
+mark.md-find {
+  background: var(--mark-bg);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+mark.md-find.current {
+  outline: 2px solid var(--accent);
+}
+
+/* Print is always light — must override :root[data-theme="dark"] specificity. */
+@media print {
+  :root,
+  :root[data-theme="light"],
+  :root[data-theme="dark"] {
+    color-scheme: light !important;
+    --bg: #ffffff;
+    --fg: #000000;
+    --muted: #444444;
+    --accent: #C94336;
+    --code-bg: #f4f4f4;
+    --border: #cccccc;
+    --quote-border: #C94336;
+    --mermaid-bg: #ffffff;
+    --mark-bg: transparent;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  #content {
+    padding: 0;
+    opacity: 1;
+  }
+
+  mark.md-find {
+    background: transparent;
+    outline: none;
+  }
+}
